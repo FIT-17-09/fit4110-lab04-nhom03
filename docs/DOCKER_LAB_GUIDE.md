@@ -31,7 +31,7 @@ Ví dụ:
 docker build -t fit4110/iot-ingestion:lab04 .
 docker run -p 8000:8000 fit4110/iot-ingestion:lab04
 ```
-
+Lời giải: Nhóm đã đóng gói toàn bộ source code + dependency + runtime config thành công vào một Image tên là fit4110/iot-ingestion:lab04. Từ Image này, nhóm đã run thành công Container fit4110-iot-lab04 hoạt động độc lập trên port 8000.
 ---
 
 ## 3. Dockerfile tối thiểu
@@ -55,7 +55,7 @@ Dockerfile trong repo này tốt hơn bản tối thiểu vì có:
 - `.dockerignore`
 
 ---
-
+Lời giải: Dockerfile của nhóm đã tuân thủ chuẩn nâng cao: Áp dụng Multi-stage build (tách lớp builder và runtime), và thiết lập file .dockerignore cẩn thận để dung lượng image nhỏ gọn. Container cũng đã được thiết lập chạy ngầm dưới quyền user an toàn (non-root) tên là appuser.
 ## 4. Healthcheck
 
 Container không chỉ cần "đang chạy", mà cần "service bên trong sẵn sàng".
@@ -72,7 +72,7 @@ docker inspect fit4110-iot-lab04
 ```
 
 ---
-
+Lời giải: Nhóm đã tích hợp cấu trúc HEALTHCHECK trong Dockerfile (sử dụng curl/python nội bộ để ping vào http://127.0.0.1:8000/health).
 ## 5. Không đưa secret vào image
 
 Không viết trực tiếp token vào code hoặc Dockerfile.
@@ -94,3 +94,4 @@ và truyền khi chạy:
 ```bash
 docker run --env-file .env ...
 ```
+Lời giải: Thay vì hardcode token bảo mật, nhóm sử dụng file .env.example (với AUTH_TOKEN=local-dev-token) để truyền biến môi trường vào lúc runtime bằng cờ --env-file.
